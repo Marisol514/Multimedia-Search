@@ -1,0 +1,22 @@
+body{
+    margin: 0;
+    padding: 0 0px;
+    font-family: 'Arial', sans-serif;
+    background-image:url("https://covers.openlibrary.org/b/isbn/9780385533225-S.jpg");
+    background-position: center;
+    background-repeat: no-repeat; 
+    background-size: cover;
+}
+  
+    .search-input-form {
+        display: flex;
+        flex-direction: column;
+}
+h1{
+
+}
+
+p{
+
+
+}
