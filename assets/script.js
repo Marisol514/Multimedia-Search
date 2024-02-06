@@ -1,5 +1,5 @@
 
-async function search() {
+async function searchResult() {
     const searchTerm = document.getElementById('search-input').value;
     const openLibraryUrl = `https://openlibrary.org/search.json?q=${searchTerm} `;
     const omdbUrl = `http://www.omdbapi.com/?t=${searchTerm}&apikey=5b198aca`;
@@ -21,3 +21,37 @@ async function search() {
     }
   }
   
+  function displayResults(openLibraryData, omdbData) {
+    const resultsContainer = document.getElementById('results');
+    resultsContainer.innerHTML = '';
+  
+    // Display Open Library results
+    if (openLibraryData.docs && openLibraryData.docs.length > 0) {
+      resultsContainer.innerHTML += '<h2>Books from Open Library</h2>';
+      openLibraryData.docs.forEach(book => {
+        resultsContainer.innerHTML += `
+          <div>
+            <h3>${book.title}</h3>
+            <p>Author(s): ${book.author_name ? book.author_name.join(', ') : 'N/A'}</p>
+          </div>
+        `;
+      });
+    }
+  
+    // Display OMDB result
+    if (omdbData.Title) {
+      resultsContainer.innerHTML += '<h2>Movie from OMDB</h2>';
+      resultsContainer.innerHTML += `
+        <div>
+          <h3>${omdbData.Title}</h3>
+          <p>Director: ${omdbData.Director}</p>
+          <img src="${omdbData.Poster}" alt="${omdbData.Title} Poster">
+        </div>
+      `;
+    }
+  
+    // If no results found
+    if (!openLibraryData.docs.length && !omdbData.Title) {
+      resultsContainer.innerHTML = 'No results found.';
+    }
+  }
