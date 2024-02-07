@@ -1,0 +1,69 @@
+/* Bulma styles */
+@import url('https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css');
+
+body {
+    background-color: black;
+    min-height: 100vh;
+    overflow-y: auto;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.fading-header {
+    background-color: rgba(108, 104, 104, 0.357); /* Black with 50% opacity */
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.search-input-form {
+    margin-top: 20px;
+}
+
+.input.is-primary, .button.is-primary {
+    background-color: rgba(255, 255, 255, 0.1); /* White with 10% opacity */
+    color: white;
+}
+
+.input.is-primary::placeholder {
+    color: white;
+    opacity: 0.5;
+}
+
+.button.is-primary {
+    border: none;
+}
+
+.results-container {
+    margin-top: 20px;
+}
+
+.book-container, .movie-container {
+    background-color: rgba(255, 255, 255, 0.1); /* White with 10% opacity */
+    color: white; /* Ensuring white text color */
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.book-container:hover, .movie-container:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* White with 20% opacity */
+}
+
+.book-image img, .movie-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Ensuring white color for book and movie info */
+.book-info p, .movie-info h3 {
+    color: white;
+}
+
+/* Styling for book title */
+.book-info h3 {
+    color: white;
+    font-weight: bold;
+}
