@@ -69,7 +69,10 @@ function displayResults(openLibraryData, omdbData) {
     movieElement.innerHTML = `
       <div class="movie-container">
         <a href="https://www.imdb.com/title/${omdbData.imdbID}" target="_blank">
-          <img src="${omdbData.Poster}" alt="${omdbData.Title} Poster">
+          <div class = "book-image">
+            <img src="${omdbData.Poster}" alt="${omdbData.Title} Poster">
+          </div>
+
           <div class="movie-info">
             <h2>${omdbData.Title}</h2>
             <h3>Director: ${director}</h3>
