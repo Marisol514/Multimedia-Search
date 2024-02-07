@@ -45,6 +45,7 @@ body {
     margin-bottom: 20px;
     padding: 10px;
     border-radius: 10px;
+    display: inline;
 }
 
 .book-container:hover, .movie-container:hover {
@@ -63,7 +64,16 @@ body {
 }
 
 /* Styling for book title */
-.book-info h3 {
+.book-info h3, p {
     color: white;
     font-weight: bold;
+    margin-left: 30%;
+    margin-bottom: 250px;
+    margin-top: -250px;
+}
+
+.movie-info h3{
+    margin-left: 40%;
+    margin-bottom: 250px;
+    margin-top: -250px;
 }
