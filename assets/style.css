@@ -52,27 +52,32 @@ body {
     background-color: rgba(255, 255, 255, 0.2); /* White with 20% opacity */
 }
 
-.book-image img, .movie-container img {
-    max-width: 100%;
+.book-image {
+    width: 200px;
     height: auto;
     border-radius: 5px;
+    
 }
 
 /* Ensuring white color for book and movie info */
-.book-info p, .movie-info h3 {
+.book-info p, .movie-info h2, h3, p {
     color: white;
 }
-
+h2{
+    font-weight: bolder;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
 /* Styling for book title */
-.book-info h3, p {
+.book-info {
     color: white;
-    font-weight: bold;
     margin-left: 30%;
     margin-bottom: 250px;
     margin-top: -250px;
+    text-align: left;
 }
 
-.movie-info h3{
+.movie-info{
     margin-left: 40%;
     margin-bottom: 250px;
     margin-top: -250px;
