@@ -40,6 +40,7 @@ function displayResults(openLibraryData, omdbData) {
       const bookElement = document.createElement('div');
       const openLibraryUrl = `https://openlibrary.org${book.key}`;
       const authors = book.author_name ? book.author_name.join(', ') : 'Unknown Author';
+      const summary = book.overview ? book.overview.join(' ') : 'No summary available';
       bookElement.innerHTML = `
         <div class="book-container">
           <a href="${openLibraryUrl}" target="_blank">
@@ -47,8 +48,9 @@ function displayResults(openLibraryData, omdbData) {
               <img src="https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg" alt="${book.title} Cover">
             </div>
             <div class="book-info">
-              <h3>${book.title}</h3>
-              <p>Author(s): ${authors}</p>
+              <h2>${book.title}</h2>
+              <h3>Author(s): ${authors}</h3>
+              <p>Summary: ${summary}</p>
             </div>
           </a>
         </div>
@@ -62,12 +64,16 @@ function displayResults(openLibraryData, omdbData) {
   // Display OMDB result
   if (omdbData.Title) {
     const movieElement = document.createElement('div');
+    const movieSummary = omdbData.Plot ? omdbData.Plot : 'No summary available';
+    const director = omdbData.Director ? omdbData.Director : 'Unknown Director';
     movieElement.innerHTML = `
       <div class="movie-container">
         <a href="https://www.imdb.com/title/${omdbData.imdbID}" target="_blank">
           <img src="${omdbData.Poster}" alt="${omdbData.Title} Poster">
           <div class="movie-info">
-            <h3>${omdbData.Title}</h3>
+            <h2>${omdbData.Title}</h2>
+            <h3>Director: ${director}</h3>
+            <p>Summary: ${movieSummary}</p>
           </div>
         </a>
       </div>
