@@ -40,7 +40,7 @@ body {
 }
 
 .book-container, .movie-container {
-    background-color: rgba(255, 255, 255, 0.1); /* White with 10% opacity */
+    background-color: rgba(255, 255, 255, 0); /* White with 10% opacity */
     color: white; /* Ensuring white text color */
     margin-bottom: 20px;
     padding: 10px;
@@ -49,31 +49,37 @@ body {
 }
 
 .book-container:hover, .movie-container:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* White with 20% opacity */
+    background-color: rgba(255, 255, 255, 0); /* White with 20% opacity */
 }
 
-.book-image img, .movie-container img {
-    max-width: 100%;
+.book-image {
+    width: 200px;
     height: auto;
     border-radius: 5px;
 }
 
 /* Ensuring white color for book and movie info */
-.book-info p, .movie-info h3 {
+.book-info p, .movie-info h2, h3, p {
     color: white;
 }
 
 /* Styling for book title */
-.book-info h3, p {
+.book-info{
     color: white;
-    font-weight: bold;
     margin-left: 30%;
     margin-bottom: 250px;
     margin-top: -250px;
+    text-align: left;
 }
 
-.movie-info h3{
+h2{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.movie-info{
     margin-left: 40%;
     margin-bottom: 250px;
     margin-top: -250px;
+    text-align: left;
 }
