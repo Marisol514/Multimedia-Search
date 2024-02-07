@@ -1,7 +1,7 @@
 async function searchResult() {
   const searchTerm = document.getElementById('search-input-field').value;
   const openLibraryUrl = `https://openlibrary.org/search.json?q=${searchTerm}`;
-  const omdbUrl = `https://www.omdbapi.com/?t=${searchTerm}&plot=full&apikey=5b198aca`;
+  const omdbUrl = `https://www.omdbapi.com/?t=${searchTerm}&apikey=5b198aca`;
   const loadingIcon = document.getElementById('loading-icon');
   loadingIcon.style.display = 'block';
 
