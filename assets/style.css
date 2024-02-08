@@ -11,10 +11,11 @@ body {
 }
 
 .fading-header {
-    background-color: rgba(108, 104, 104, 0.357); /* Black with 50% opacity */
+    background: linear-gradient(45deg, #ea9999b3, #bac0e5d4, #71b1e6d1, #e14cd7e3, #ffeb3b); /* Multicolor gradient */
     color: white;
-    padding: 20px;
+    padding: 40px; /* Increase padding for larger header */
     text-align: center;
+    font-size: 32px; /* Increase font size for larger header */
 }
 
 .search-input-form {
@@ -40,34 +41,36 @@ body {
 }
 
 .book-container, .movie-container {
-    background-color: rgba(255, 255, 255, 0.1); /* White with 10% opacity */
+    background-color: rgba(77, 76, 76, 0.21); /* Red with 10% opacity */
     color: white; /* Ensuring white text color */
     margin-bottom: 20px;
     padding: 10px;
     border-radius: 10px;
-    display: inline;
+    display: block; /* Change to block to ensure full width */
 }
 
 .book-container:hover, .movie-container:hover {
     background-color: rgba(255, 255, 255, 0.2); /* White with 20% opacity */
 }
 
-.book-image {
-    width: 200px;
-    height: auto;
+.book-image, .movie-image {
+    width: 200px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
     border-radius: 5px;
-    
 }
 
 /* Ensuring white color for book and movie info */
 .book-info p, .movie-info h2, h3, p {
     color: white;
 }
-h2{
+
+
+h2 {
     font-weight: bolder;
     font-size: 24px;
     margin-bottom: 15px;
 }
+
 /* Styling for book title */
 .book-info {
     color: white;
@@ -77,7 +80,7 @@ h2{
     text-align: left;
 }
 
-.movie-info{
+.movie-info {
     margin-left: 40%;
     margin-bottom: 250px;
     margin-top: -250px;
