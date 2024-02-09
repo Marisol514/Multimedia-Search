@@ -31,8 +31,9 @@ function displayResults(openLibraryData, omdbData) {
   const bookResultsContainer = document.getElementById('book-results');
   const movieResultsContainer = document.getElementById('movie-results');
 
-  bookResultsContainer.innerHTML = '';
-  movieResultsContainer.innerHTML = '';
+  // Add header to book section
+  bookResultsContainer.innerHTML = '<h2>Book Results</h2>';
+  movieResultsContainer.innerHTML = ''; // Clear previous results
 
   // Display Open Library results
   if (openLibraryData.docs && openLibraryData.docs.length > 0) {
@@ -48,9 +49,9 @@ function displayResults(openLibraryData, omdbData) {
               <img src="https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg" alt="${book.title} Cover">
             </div>
             <div class="book-info">
-              <h2>${book.title}</h2>
-              <h3>Author(s): ${authors}</h3>
-              <p>Summary: ${summary}</p>
+              <h3>${book.title}</h3>
+              <p><strong>Author(s):</strong> ${authors}</p>
+              <p><strong>Summary:</strong> ${summary}</p>
             </div>
           </a>
         </div>
@@ -58,8 +59,11 @@ function displayResults(openLibraryData, omdbData) {
       bookResultsContainer.appendChild(bookElement);
     });
   } else {
-    bookResultsContainer.innerHTML = 'No books found.';
+    bookResultsContainer.innerHTML += 'No books found.';
   }
+
+  // Add header to movie section
+  movieResultsContainer.innerHTML = '<h2>Movie Finds</h2>';
 
   // Display OMDB result
   if (omdbData.Title) {
@@ -69,20 +73,20 @@ function displayResults(openLibraryData, omdbData) {
     movieElement.innerHTML = `
       <div class="movie-container">
         <a href="https://www.imdb.com/title/${omdbData.imdbID}" target="_blank">
-          <div class = "book-image">
+          <div class="movie-image">
             <img src="${omdbData.Poster}" alt="${omdbData.Title} Poster">
           </div>
-
           <div class="movie-info">
-            <h2>${omdbData.Title}</h2>
-            <h3>Director: ${director}</h3>
-            <p>Summary: ${movieSummary}</p>
+            <h3>${omdbData.Title}</h3>
+            <p><strong>Director:</strong> ${director}</p>
+            <p><strong>Summary:</strong> ${movieSummary}</p>
           </div>
         </a>
       </div>
     `;
     movieResultsContainer.appendChild(movieElement);
   } else {
-    movieResultsContainer.innerHTML = 'No movie found.';
+    movieResultsContainer.innerHTML += 'No movie found.';
   }
 }
+
