@@ -13,16 +13,21 @@
     </header>
 
     <section class="section search-input-form">
-        <form id="search-form" class="columns is-mobile is-centered" onsubmit="searchResult(); return false;">
-            <div class="column is-half-desktop">
-                <input class="input is-primary" type="text" id="search-input-field" placeholder="Enter Search Term" required>
+        <form id="search-form" class="columns is-mobile" onsubmit="searchResult(); return false;">
+          <div class="column is-one-quarter">
+            <div class="field is-grouped is-flex">
+              <p class="control is-expanded">
+                <input class="input is-rounded" type="text" id="search-input-field" placeholder="Enter Search Term" required>
+              </p>
+              <p class="control">
+                <button class="button is-rounded">Search</button>
+              </p>
             </div>
             <div class="column is-half-desktop">
                 <button class="button is-primary" type="submit">Search</button>
             </div>
-            <div id="previous-searches" class = "column"></div>
         </form>
-    </section>
+      </section>
     
     <div id="previous-searches"></div>
     <button onclick="displaySavedList()">Display Saved List</button>

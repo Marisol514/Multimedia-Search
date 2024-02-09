@@ -2,6 +2,11 @@
 @import url('https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css');
 
 body {
+    background-image: url("backgroundimg.jpg");
+    background-repeat: no repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
     background-color: black;
     min-height: 100vh;
     overflow-y: auto;
@@ -11,15 +16,15 @@ body {
 }
 
 .fading-header {
-    background: linear-gradient(45deg, #ea9999b3, #bac0e5d4, #71b1e6d1, #e14cd7e3, #ffeb3b); /* Multicolor gradient */
+    background: linear-gradient(#050303); /* Multicolor gradient */
     color: white;
     padding: 40px; /* Increase padding for larger header */
     text-align: center;
-    font-size: 32px; /* Increase font size for larger header */
+    font-size: 55px; /* Increase font size for larger header */
 }
 
 .search-input-form {
-    margin-top: 20px;
+    margin-top: 0px;
 }
 
 .input.is-primary, .button.is-primary {
@@ -41,7 +46,7 @@ body {
 }
 
 .book-container, .movie-container {
-    background-color: rgba(77, 76, 76, 0.21); /* Red with 10% opacity */
+    background-color: rgba(0, 0, 0, 0.526); /* Red with 10% opacity */
     color: white; /* Ensuring white text color */
     margin-bottom: 20px;
     padding: 10px;
@@ -50,7 +55,7 @@ body {
 }
 
 .book-container:hover, .movie-container:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* White with 20% opacity */
+    background-color: rgba(10, 10, 10, 0.892); /* White with 20% opacity */
 }
 
 .book-image, .movie-image {
@@ -84,6 +89,7 @@ h2 {
     margin-left: 40%;
     margin-bottom: 250px;
     margin-top: -250px;
+    text-align: left;
 }
 /*added css*/
 .notification {

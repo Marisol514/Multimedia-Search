@@ -85,19 +85,16 @@ async function searchResult() {
   const omdbUrl = `https://www.omdbapi.com/?t=${searchTerm}&apikey=5b198aca`;
   const loadingIcon = document.getElementById('loading-icon');
   loadingIcon.style.display = 'block';
-
   try {
-    // Fetch data from Open Library API
-    const openLibraryResponse = await fetch(openLibraryUrl);
+    // Fetch data from both APIs concurrently
+    const [openLibraryResponse, omdbResponse] = await Promise.all([
+      fetch(openLibraryUrl),
+      fetch(omdbUrl)
+    ]);
     const openLibraryData = await openLibraryResponse.json();
-
-    // Fetch data from OMDB API
-    const omdbResponse = await fetch(omdbUrl);
     const omdbData = await omdbResponse.json();
-
     // Hide loading icon
     loadingIcon.style.display = 'none';
-
     // Display results
     displayResults(openLibraryData, omdbData);
   } catch (error) {
@@ -107,30 +104,50 @@ async function searchResult() {
     loadingIcon.style.display = 'none';
   }
 }
-
-// Function to display search results on the page
+async function fetchWorkDetails(workUrl) {
+  try {
+    const workResponse = await fetch(workUrl);
+    const workData = await workResponse.json();
+    return workData;
+  } catch (error) {
+    console.error('Error fetching work details:', error);
+    return null;
+  }
+}
+async // Function to display search results on the page
 function displayResults(openLibraryData, omdbData) {
   const bookResultsContainer = document.getElementById('book-results');
   const movieResultsContainer = document.getElementById('movie-results');
-
   // Add header to book section
   bookResultsContainer.innerHTML = '<h2>Book Results</h2>';
-  movieResultsContainer.innerHTML = ''; // Clear previous results
-
-  // Display Open Library results
+  movieResultsContainer.innerHTML = '<h2>Movie Results</h2>'; // Add header to movie section
+  // Display Open Library results for books
   if (openLibraryData.docs && openLibraryData.docs.length > 0) {
     openLibraryData.docs.forEach(book => {
-      const bookElement = createBookElement(book);
+      const bookElement = document.createElement('div');
+      const openLibraryUrl = `https://openlibrary.org${book.key}`;
+      const authors = book.author_name ? book.author_name.join(', ') : 'Unknown Author';
+      const summary = book.overview ? book.overview.join(' ') : 'No summary available';
+      bookElement.innerHTML = `
+        <div class="book-container">
+          <a href="${openLibraryUrl}" target="_blank">
+            <div class="book-image">
+              <img src="https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg" alt="${book.title} Cover">
+            </div>
+            <div class="book-info">
+              <h3>${book.title}</h3>
+              <p><strong>Author(s):</strong> ${authors}</p>
+              <p><strong>Summary:</strong> ${summary}</p>
+            </div>
+          </a>
+        </div>
+      `;
       bookResultsContainer.appendChild(bookElement);
-    });
+    }
   } else {
     bookResultsContainer.innerHTML += 'No books found.';
   }
-
-  // Add header to movie section
-  movieResultsContainer.innerHTML = '<h2>Movie Finds</h2>';
-
-  // Display OMDB result
+  // Display OMDB result for movies
   if (omdbData.Title) {
     const movieElement = createMovieElement(omdbData);
     movieResultsContainer.appendChild(movieElement);
