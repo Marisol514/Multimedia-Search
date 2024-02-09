@@ -20,9 +20,14 @@
             <div class="column is-half-desktop">
                 <button class="button is-primary" type="submit">Search</button>
             </div>
+            <div id="previous-searches" class = "column"></div>
         </form>
     </section>
-
+    
+    <div id="previous-searches"></div>
+    <button onclick="displaySavedList()">Display Saved List</button>
+    <div id="saved-list"></div>
+  
     <section class="section results-container">
         <div class="columns is-mobile is-centered">
             <div id="book-results" class="column is-half-desktop"></div>

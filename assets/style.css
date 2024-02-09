@@ -85,3 +85,25 @@ h2 {
     margin-bottom: 250px;
     margin-top: -250px;
 }
+/*added css*/
+.notification {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  .success {
+    background-color: #28a745;
+  }
+  
+  .warning {
+    background-color: #ffc107;
+  }
+
+  #saved-list.collapsed {
+    display: none;
+  }
