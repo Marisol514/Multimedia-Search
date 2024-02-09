@@ -91,3 +91,25 @@ h2 {
     margin-top: -250px;
     text-align: left;
 }
+/*added css*/
+.notification {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  .success {
+    background-color: #28a745;
+  }
+  
+  .warning {
+    background-color: #ffc107;
+  }
+
+  #saved-list.collapsed {
+    display: none;
+  }
