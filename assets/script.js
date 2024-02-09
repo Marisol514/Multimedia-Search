@@ -85,6 +85,7 @@ async function searchResult() {
   const omdbUrl = `https://www.omdbapi.com/?t=${searchTerm}&apikey=5b198aca`;
   const loadingIcon = document.getElementById('loading-icon');
   loadingIcon.style.display = 'block';
+
   try {
     // Fetch data from both APIs concurrently
     const [openLibraryResponse, omdbResponse] = await Promise.all([
@@ -104,17 +105,8 @@ async function searchResult() {
     loadingIcon.style.display = 'none';
   }
 }
-async function fetchWorkDetails(workUrl) {
-  try {
-    const workResponse = await fetch(workUrl);
-    const workData = await workResponse.json();
-    return workData;
-  } catch (error) {
-    console.error('Error fetching work details:', error);
-    return null;
-  }
-}
-async // Function to display search results on the page
+
+// Function to display search results on the page
 function displayResults(openLibraryData, omdbData) {
   const bookResultsContainer = document.getElementById('book-results');
   const movieResultsContainer = document.getElementById('movie-results');
@@ -124,26 +116,9 @@ function displayResults(openLibraryData, omdbData) {
   // Display Open Library results for books
   if (openLibraryData.docs && openLibraryData.docs.length > 0) {
     openLibraryData.docs.forEach(book => {
-      const bookElement = document.createElement('div');
-      const openLibraryUrl = `https://openlibrary.org${book.key}`;
-      const authors = book.author_name ? book.author_name.join(', ') : 'Unknown Author';
-      const summary = book.overview ? book.overview.join(' ') : 'No summary available';
-      bookElement.innerHTML = `
-        <div class="book-container">
-          <a href="${openLibraryUrl}" target="_blank">
-            <div class="book-image">
-              <img src="https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg" alt="${book.title} Cover">
-            </div>
-            <div class="book-info">
-              <h3>${book.title}</h3>
-              <p><strong>Author(s):</strong> ${authors}</p>
-              <p><strong>Summary:</strong> ${summary}</p>
-            </div>
-          </a>
-        </div>
-      `;
+      const bookElement = createBookElement(book);
       bookResultsContainer.appendChild(bookElement);
-    }
+    });
   } else {
     bookResultsContainer.innerHTML += 'No books found.';
   }
@@ -179,12 +154,6 @@ function displaySavedList() {
   }
 }
 
-function toggleMyList() {
-  const savedListContainer = document.getElementById('saved-list');
-  savedListContainer.classList.toggle('collapsed');
-}
-
-// Function to display a notification on the page
 function displayNotification(message, type) {
   const notificationElement = document.createElement('div');
   notificationElement.className = `notification ${type}`;
