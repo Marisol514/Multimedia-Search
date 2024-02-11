@@ -1,5 +1,5 @@
 let myList = JSON.parse(localStorage.getItem('myList')) || [];
-let isListOpen = false;
+let isListOpen = true; // Initially set to true to display the list
 
 function createBookElement(book) {
   const bookElement = document.createElement('div');
@@ -81,13 +81,10 @@ function attachAddButtonListeners() {
 function toggleMyList() {
   const savedListContainer = document.getElementById('saved-list');
   
-  if (!isListOpen) {
+  if (savedListContainer.classList.contains('collapsed')) {
     savedListContainer.classList.remove('collapsed');
-    displaySavedList(); // Display list only when the button is clicked
-    isListOpen = true;
   } else {
     savedListContainer.classList.add('collapsed');
-    isListOpen = false;
   }
 }
 
@@ -159,7 +156,8 @@ function displaySavedList() {
 
       // Attach event listener to remove button for each item
       const removeButton = savedItemElement.querySelector('.remove-from-list');
-      removeButton.addEventListener('click', function() {
+      removeButton.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default behavior of the button (e.g., form submission)
         const apiLink = this.dataset.apiLink;
         removeItemFromMyList(apiLink, removeButton);
         // Remove the item from the DOM immediately after removal
@@ -182,12 +180,12 @@ function displayNotification(message, type, targetElement) {
   const targetLeft = targetRect.left + window.scrollX;
   notificationElement.style.position = 'absolute';
   notificationElement.style.top = `${targetTop}px`;
-  notificationElement.style.left = `${targetLeft + targetRect.width + 30}px`; // Display notification to the right of the target element
+  notificationElement.style.left = `${targetLeft + targetRect.width + 10}px`; // Display notification to the right of the target element
 
   // Calculate the width of the notification to fit the content
   const maxWidth = 200; // Set maximum width
   const textWidth = getTextWidth(message, notificationElement.style.fontSize || 'inherit');
-  const width = Math.min(maxWidth, textWidth + 30); // Add padding
+  const width = Math.min(maxWidth, textWidth + 20); // Add padding
   notificationElement.style.width = `${width}px`;
 
   // Add the notification to the document body
@@ -208,8 +206,8 @@ function getTextWidth(text, font) {
   return width;
 }
 
-// Initially hide saved list
-document.getElementById('saved-list').classList.add('collapsed');
+// Initially display saved list
+displaySavedList();
 
 // Attach event listener to toggle button
 document.getElementById('toggle-list-button').addEventListener('click', toggleMyList);
