@@ -1,7 +1,6 @@
-// Initialize the list from local storage or create an empty array
 let myList = JSON.parse(localStorage.getItem('myList')) || [];
+let isListOpen = false;
 
-// Function to create a book element
 function createBookElement(book) {
   const bookElement = document.createElement('div');
   const openLibraryUrl = `https://openlibrary.org${book.key}`;
@@ -19,13 +18,12 @@ function createBookElement(book) {
           <p><strong>Summary:</strong> ${summary}</p>
         </div>
       </a>
-      <button class="add-to-list" onclick="addToMyList('${openLibraryUrl}', 'book', '${book.title}', '${authors}')">Add to My List</button>
+      <button class="add-to-list" data-api-link="${openLibraryUrl}" data-type="book" data-title="${book.title}" data-author-director="${authors}">Add to My List</button>
     </div>
   `;
   return bookElement;
 }
 
-// Function to create a movie element
 function createMovieElement(omdbData) {
   const movieElement = document.createElement('div');
   const movieSummary = omdbData.Plot ? omdbData.Plot : 'No summary available';
@@ -42,43 +40,57 @@ function createMovieElement(omdbData) {
           <p><strong>Summary:</strong> ${movieSummary}</p>
         </div>
       </a>
-      <button class="add-to-list" onclick="addToMyList('https://www.imdb.com/title/${omdbData.imdbID}', 'movie', '${omdbData.Title}', '${director}')">Add to My List</button>
+      <button class="add-to-list" data-api-link="https://www.imdb.com/title/${omdbData.imdbID}" data-type="movie" data-title="${omdbData.Title}" data-author-director="${director}">Add to My List</button>
     </div>
   `;
   return movieElement;
 }
 
-// Function to add an item to the "My List" and save it to local storage
-function addToMyList(apiLink, type, title, authorDirector) {
-  // Check if the item is already in the list
+function addToMyList(apiLink, type, title, authorDirector, button) {
   if (!myList.some(existingItem => existingItem.apiLink === apiLink)) {
     myList.push({ apiLink, type, title, authorDirector });
-    // Save the updated list to local storage
     localStorage.setItem('myList', JSON.stringify(myList));
-    displayNotification('Added to My List!', 'success');
-    // Refresh the displayed list
+    displayNotification('Added to My List!', 'success', button);
     displaySavedList();
   } else {
-    displayNotification('Item is already in My List!', 'warning');
+    displayNotification('Item is already in My List!', 'warning', button);
   }
 }
 
-// Function to remove an item from the "My List" and update local storage
-function removeFromMyList(apiLink) {
+function removeItemFromMyList(apiLink, button) {
   myList = myList.filter(item => item.apiLink !== apiLink);
   localStorage.setItem('myList', JSON.stringify(myList));
-  displayNotification('Removed from My List!', 'success');
-  // Refresh the displayed list
+  displayNotification('Removed from My List!', 'success', button);
   displaySavedList();
 }
 
-// Function to toggle the visibility of the "My List" section
-function toggleMyList() {
-  const savedListContainer = document.getElementById('saved-list');
-  savedListContainer.classList.toggle('collapsed');
+function attachAddButtonListeners() {
+  const addButtons = document.querySelectorAll('.add-to-list');
+  addButtons.forEach(button => {
+    button.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent default behavior of the button (e.g., form submission)
+      const apiLink = this.dataset.apiLink;
+      const type = this.dataset.type;
+      const title = this.dataset.title;
+      const authorDirector = this.dataset.authorDirector;
+      addToMyList(apiLink, type, title, authorDirector, button);
+    });
+  });
 }
 
-// Function to fetch and display search results
+function toggleMyList() {
+  const savedListContainer = document.getElementById('saved-list');
+  
+  if (!isListOpen) {
+    savedListContainer.classList.remove('collapsed');
+    displaySavedList(); // Display list only when the button is clicked
+    isListOpen = true;
+  } else {
+    savedListContainer.classList.add('collapsed');
+    isListOpen = false;
+  }
+}
+
 async function searchResult() {
   const searchTerm = document.getElementById('search-input-field').value;
   const openLibraryUrl = `https://openlibrary.org/search.json?q=${searchTerm}`;
@@ -87,16 +99,13 @@ async function searchResult() {
   loadingIcon.style.display = 'block';
 
   try {
-    // Fetch data from both APIs concurrently
     const [openLibraryResponse, omdbResponse] = await Promise.all([
       fetch(openLibraryUrl),
       fetch(omdbUrl)
     ]);
     const openLibraryData = await openLibraryResponse.json();
     const omdbData = await omdbResponse.json();
-    // Hide loading icon
     loadingIcon.style.display = 'none';
-    // Display results
     displayResults(openLibraryData, omdbData);
   } catch (error) {
     console.error('Error:', error);
@@ -106,14 +115,12 @@ async function searchResult() {
   }
 }
 
-// Function to display search results on the page
 function displayResults(openLibraryData, omdbData) {
   const bookResultsContainer = document.getElementById('book-results');
   const movieResultsContainer = document.getElementById('movie-results');
-  // Add header to book section
   bookResultsContainer.innerHTML = '<h2>Book Results</h2>';
-  movieResultsContainer.innerHTML = '<h2>Movie Results</h2>'; // Add header to movie section
-  // Display Open Library results for books
+  movieResultsContainer.innerHTML = '<h2>Movie Results</h2>';
+
   if (openLibraryData.docs && openLibraryData.docs.length > 0) {
     openLibraryData.docs.forEach(book => {
       const bookElement = createBookElement(book);
@@ -122,19 +129,20 @@ function displayResults(openLibraryData, omdbData) {
   } else {
     bookResultsContainer.innerHTML += 'No books found.';
   }
-  // Display OMDB result for movies
+
   if (omdbData.Title) {
     const movieElement = createMovieElement(omdbData);
     movieResultsContainer.appendChild(movieElement);
   } else {
     movieResultsContainer.innerHTML += 'No movie found.';
   }
+
+  attachAddButtonListeners(); // Attach event listeners after adding elements
 }
 
-// Function to display the "My List" section on the page
 function displaySavedList() {
   const savedListContainer = document.getElementById('saved-list');
-  savedListContainer.innerHTML = '<h2>Saved List</h2>';
+  savedListContainer.innerHTML = ''; // Clear existing content
 
   if (myList.length > 0) {
     myList.forEach(item => {
@@ -144,24 +152,64 @@ function displaySavedList() {
         <p><strong>Type:</strong> ${item.type}</p>
         <p><strong>Author/Director:</strong> ${item.authorDirector}</p>
         <p><a href="${item.apiLink}" target="_blank">View Details</a></p>
-        <button onclick="removeFromMyList('${item.apiLink}')">Remove from My List</button>
+        <button class="remove-from-list" data-api-link="${item.apiLink}">Remove from My List</button>
         <hr>
       `;
       savedListContainer.appendChild(savedItemElement);
+
+      // Attach event listener to remove button for each item
+      const removeButton = savedItemElement.querySelector('.remove-from-list');
+      removeButton.addEventListener('click', function() {
+        const apiLink = this.dataset.apiLink;
+        removeItemFromMyList(apiLink, removeButton);
+        // Remove the item from the DOM immediately after removal
+        savedListContainer.removeChild(savedItemElement);
+      });
     });
   } else {
-    savedListContainer.innerHTML += 'Your list is empty.';
+    savedListContainer.innerHTML = 'Your list is empty.';
   }
 }
 
-function displayNotification(message, type) {
+function displayNotification(message, type, targetElement) {
   const notificationElement = document.createElement('div');
   notificationElement.className = `notification ${type}`;
   notificationElement.textContent = message;
+
+  // Position the notification relative to the target element
+  const targetRect = targetElement.getBoundingClientRect();
+  const targetTop = targetRect.top + window.scrollY;
+  const targetLeft = targetRect.left + window.scrollX;
+  notificationElement.style.position = 'absolute';
+  notificationElement.style.top = `${targetTop}px`;
+  notificationElement.style.left = `${targetLeft + targetRect.width + 30}px`; // Display notification to the right of the target element
+
+  // Calculate the width of the notification to fit the content
+  const maxWidth = 200; // Set maximum width
+  const textWidth = getTextWidth(message, notificationElement.style.fontSize || 'inherit');
+  const width = Math.min(maxWidth, textWidth + 30); // Add padding
+  notificationElement.style.width = `${width}px`;
+
+  // Add the notification to the document body
   document.body.appendChild(notificationElement);
 
-  // Remove the notification after 3 seconds (adjust as needed)
+  // Remove the notification after 3 seconds
   setTimeout(() => {
     document.body.removeChild(notificationElement);
   }, 3000);
 }
+
+// Helper function to calculate text width
+function getTextWidth(text, font) {
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  context.font = font;
+  const width = context.measureText(text).width;
+  return width;
+}
+
+// Initially hide saved list
+document.getElementById('saved-list').classList.add('collapsed');
+
+// Attach event listener to toggle button
+document.getElementById('toggle-list-button').addEventListener('click', toggleMyList);
