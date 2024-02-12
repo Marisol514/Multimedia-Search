@@ -18,7 +18,7 @@ function createBookElement(book) {
           <p><strong>Summary:</strong> ${summary}</p>
         </div>
       </a>
-      <button class="add-to-list" data-api-link="${openLibraryUrl}" data-type="book" data-title="${book.title}" data-author-director="${authors}">Add to My List</button>
+      <button class="add-to-list button is-white is-rounded" data-api-link="${openLibraryUrl}" data-type="book" data-title="${book.title}" data-author-director="${authors}">Add to My List</button>
     </div>
   `;
   return bookElement;
@@ -40,7 +40,7 @@ function createMovieElement(omdbData) {
           <p><strong>Summary:</strong> ${movieSummary}</p>
         </div>
       </a>
-      <button class="add-to-list" data-api-link="https://www.imdb.com/title/${omdbData.imdbID}" data-type="movie" data-title="${omdbData.Title}" data-author-director="${director}">Add to My List</button>
+      <button class="add-to-list button is-white is-rounded" data-api-link="https://www.imdb.com/title/${omdbData.imdbID}" data-type="movie" data-title="${omdbData.Title}" data-author-director="${director}">Add to My List</button>
     </div>
   `;
   return movieElement;
@@ -93,6 +93,8 @@ async function searchResult() {
   const openLibraryUrl = `https://openlibrary.org/search.json?q=${searchTerm}`;
   const omdbUrl = `https://www.omdbapi.com/?t=${searchTerm}&apikey=5b198aca`;
   const loadingIcon = document.getElementById('loading-icon');
+  
+  // Display loading icon
   loadingIcon.style.display = 'block';
 
   try {
@@ -102,12 +104,16 @@ async function searchResult() {
     ]);
     const openLibraryData = await openLibraryResponse.json();
     const omdbData = await omdbResponse.json();
+    
+    // Hide loading icon after fetching data
     loadingIcon.style.display = 'none';
     displayResults(openLibraryData, omdbData);
   } catch (error) {
     console.error('Error:', error);
     document.getElementById('book-results').innerHTML = 'An error occurred while fetching data. Please try again.';
     document.getElementById('movie-results').innerHTML = 'An error occurred while fetching data. Please try again.';
+    
+    // Hide loading icon in case of error
     loadingIcon.style.display = 'none';
   }
 }
@@ -149,7 +155,7 @@ function displaySavedList() {
         <p><strong>Type:</strong> ${item.type}</p>
         <p><strong>Author/Director:</strong> ${item.authorDirector}</p>
         <p><a href="${item.apiLink}" target="_blank">View Details</a></p>
-        <button class="remove-from-list" data-api-link="${item.apiLink}">Remove from My List</button>
+        <button class="button remove-from-list is-danger my-list-button" data-api-link="${item.apiLink}">Remove from My List</button> <!-- Added class "my-list-button" -->
         <hr>
       `;
       savedListContainer.appendChild(savedItemElement);
