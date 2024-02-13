@@ -2,7 +2,7 @@
 @import url('https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css');
 
 body {
-    background-image: url("backgroundimg.jpg");
+    background-image: url("Img/backgroundimg.jpg");
     background-repeat: no repeat;
     background-attachment: fixed;
     background-position: center;

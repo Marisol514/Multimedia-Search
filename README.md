@@ -24,15 +24,15 @@ WHERE I can see the the sifferent sources availble to stream, buy, rent, purchas
 
 ## Images / Screenshots:
 Opening Aplication immage: 
-![alt text](image.png)
+![alt text](assets\Img\image.png)
 
 After Search Image: 
 
-![alt text](image-1.png)
+![alt text](assets\Img\image-1.png)
 
 Saved List: 
 
-![alt text](image-2.png)
+![alt text](assets\Img\image-2.png)
 
 
 ## Acknowledgements:
