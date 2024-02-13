@@ -41,6 +41,32 @@ body {
     border: none;
 }
 
+/* Custom CSS for button color */
+.button.is-white {
+    background-color: white !important; /* Set button background color to white */
+    color: #363636 !important; /* Set button text color */
+}
+
+/* Custom CSS for buttons in saved list */
+.my-list-button {
+    background-color: white !important; /* Set button background color to white */
+    color: #363636 !important; /* Set button text color */
+}
+
+/* Specific style for Add to My List button */
+.add-to-list {
+    background-color: transparent !important; /* Set button background color to transparent */
+    color: white !important; /* Set button text color to white */
+    border: 1px solid white !important; /* Add border to match other buttons */
+    border-radius: 5px !important; /* Add border radius to match other buttons */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Add transition effect */
+}
+
+.add-to-list:hover {
+    background-color: white !important; /* Change background color on hover */
+    color: #363636 !important; /* Change text color on hover */
+}
+
 .results-container {
     margin-top: 20px;
 }
