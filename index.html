@@ -25,16 +25,28 @@
           <p class="control">
             <button class="button is-rounded">Search</button>
           </p>
-          <p class="control"> <!-- Newly added container for the "Saved List" button -->
+          <p class="control">
             <button id="toggle-list-button" class="button is-rounded">Saved List</button>
           </p>
         </div>
       </div>
     </form>
   </section>
-  <div id="my-list-pagination"></div>
+
+
+  <div class="list-container" id="saved-list-container">
+    <ul id="saved-list">
+      <li>Saved Item 1</li>
+    </ul>
+  </div>
+
+  <div class="pagination" id="my-list-pagination">
+
+    <button onclick="previousPage()">Previous</button>
+    <button onclick="nextPage()">Next</button>
+  </div>
+
   <div id="previous-searches"></div>
-  <div id="saved-list" class="collapsed"></div> <!-- Move the saved list container here -->
 
   <section class="section results-container">
     <div class="columns is-mobile is-centered">

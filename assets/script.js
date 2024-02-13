@@ -9,7 +9,7 @@ function createBookElement(book) {
   const authors = book.author_name ? book.author_name.join(', ') : 'Unknown Author';
   const summary = book.overview ? book.overview.join(' ') : 'No summary available';
   bookElement.innerHTML = `
-    <div class="book-container">
+    <div class="book-container is-mobile">
       <a href="${openLibraryUrl}" target="_blank">
         <div class="book-image">
           <img src="https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg" alt="${book.title} Cover">
@@ -31,7 +31,7 @@ function createMovieElement(omdbData) {
   const movieSummary = omdbData.Plot ? omdbData.Plot : 'No summary available';
   const director = omdbData.Director ? omdbData.Director : 'Unknown Director';
   movieElement.innerHTML = `
-    <div class="movie-container">
+    <div class="movie-container is-mobile">
       <a href="https://www.imdb.com/title/${omdbData.imdbID}" target="_blank">
         <div class="movie-image">
           <img src="${omdbData.Poster}" alt="${omdbData.Title} Poster">
@@ -184,7 +184,7 @@ function displayMyListPagination(totalPages) {
 
 
 function displaySavedList() {
-  const resultsPerPage = 10; // Set the desired number of items per page for My List
+  const resultsPerPage = 100000; // Set the desired number of items per page for My List
   const totalPages = Math.ceil(myList.length / resultsPerPage);
 
   const savedListContainer = document.getElementById('saved-list');
@@ -213,8 +213,6 @@ function displaySavedList() {
         event.preventDefault(); // Prevent default behavior of the button (e.g., form submission)
         const apiLink = this.dataset.apiLink;
         removeItemFromMyList(apiLink, removeButton);
-        // Remove the item from the DOM immediately after removal
-        savedListContainer.removeChild(savedItemElement);
       });
     });
   } else {
@@ -259,6 +257,17 @@ function getTextWidth(text, font) {
   context.font = font;
   const width = context.measureText(text).width;
   return width;
+}
+
+function toggleList() {
+  var listContainer = document.getElementById("myListContainer");
+  var paginationButtons = document.getElementById("paginationButtons");
+
+  // Toggle the visibility of the list container
+  listContainer.style.display = (listContainer.style.display === 'none' || listContainer.style.display === '') ? 'block' : 'none';
+
+  // Toggle the visibility of the pagination buttons based on the list container's visibility
+  paginationButtons.style.display = listContainer.style.display === 'block' ? 'block' : 'none';
 }
 
 // Initially display saved list
