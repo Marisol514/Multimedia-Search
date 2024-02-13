@@ -109,14 +109,15 @@ h2 {
     margin-left: 30%;
     margin-bottom: 250px;
     margin-top: -250px;
-    text-align: left;
+    text-align: justify;
 }
 
 .movie-info {
     margin-left: 40%;
     margin-bottom: 250px;
     margin-top: -250px;
-    text-align: left;
+    text-align: justify;
+
 }
 /*added css*/
 .notification {
