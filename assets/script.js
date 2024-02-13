@@ -1,5 +1,7 @@
+// Existing code
 let myList = JSON.parse(localStorage.getItem('myList')) || [];
 let isListOpen = true; // Initially set to true to display the list
+let currentPage = 1; // Current page for pagination
 
 function createBookElement(book) {
   const bookElement = document.createElement('div');
@@ -119,13 +121,20 @@ async function searchResult() {
 }
 
 function displayResults(openLibraryData, omdbData) {
+  const resultsPerPage = 10;
   const bookResultsContainer = document.getElementById('book-results');
   const movieResultsContainer = document.getElementById('movie-results');
+  const totalPages = Math.ceil(openLibraryData.docs.length / resultsPerPage);
+
   bookResultsContainer.innerHTML = '<h2>Book Results</h2>';
   movieResultsContainer.innerHTML = '<h2>Movie Results</h2>';
 
-  if (openLibraryData.docs && openLibraryData.docs.length > 0) {
-    openLibraryData.docs.forEach(book => {
+  const startIndex = (currentPage - 1) * resultsPerPage;
+  const endIndex = startIndex + resultsPerPage;
+  const booksToShow = openLibraryData.docs.slice(startIndex, endIndex);
+
+  if (booksToShow.length > 0) {
+    booksToShow.forEach(book => {
       const bookElement = createBookElement(book);
       bookResultsContainer.appendChild(bookElement);
     });
@@ -141,14 +150,52 @@ function displayResults(openLibraryData, omdbData) {
   }
 
   attachAddButtonListeners(); // Attach event listeners after adding elements
+  displayPagination(totalPages);
 }
 
+function displayPagination(totalPages) {
+  const paginationContainer = document.getElementById('pagination');
+  paginationContainer.innerHTML = '';
+
+  for (let i = 1; i <= totalPages; i++) {
+    const pageButton = document.createElement('button');
+    pageButton.textContent = i;
+    pageButton.addEventListener('click', () => {
+      currentPage = i;
+      searchResult(); // Re-run the search with the updated page
+    });
+    paginationContainer.appendChild(pageButton);
+  }
+}
+function displayMyListPagination(totalPages) {
+  const myListPaginationContainer = document.getElementById('my-list-pagination');
+  myListPaginationContainer.innerHTML = '';
+  
+  for (let i = 1; i <= totalPages; i++) {
+    const pageButton = document.createElement('button');
+    pageButton.textContent = i;
+    pageButton.addEventListener('click', () => {
+      currentPage = i;
+      displaySavedList(); // Re-display My List with the updated page
+    });
+    myListPaginationContainer.appendChild(pageButton);
+  }
+}
+
+
 function displaySavedList() {
+  const resultsPerPage = 10; // Set the desired number of items per page for My List
+  const totalPages = Math.ceil(myList.length / resultsPerPage);
+
   const savedListContainer = document.getElementById('saved-list');
   savedListContainer.innerHTML = ''; // Clear existing content
 
-  if (myList.length > 0) {
-    myList.forEach(item => {
+  const startIndex = (currentPage - 1) * resultsPerPage;
+  const endIndex = startIndex + resultsPerPage;
+  const itemsToShow = myList.slice(startIndex, endIndex);
+
+  if (itemsToShow.length > 0) {
+    itemsToShow.forEach(item => {
       const savedItemElement = document.createElement('div');
       savedItemElement.innerHTML = `
         <p><strong>Title:</strong> ${item.title}</p>
@@ -173,6 +220,8 @@ function displaySavedList() {
   } else {
     savedListContainer.innerHTML = 'Your list is empty.';
   }
+
+  displayMyListPagination(totalPages);
 }
 
 function displayNotification(message, type, targetElement) {
@@ -217,3 +266,4 @@ displaySavedList();
 
 // Attach event listener to toggle button
 document.getElementById('toggle-list-button').addEventListener('click', toggleMyList);
+
