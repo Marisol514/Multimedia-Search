@@ -139,3 +139,25 @@ h2 {
   #saved-list.collapsed {
     display: none;
   }
+
+  #saved-list a{
+    color: coral;
+    
+    
+  }
+  #saved-list p{
+    color: rgb(69, 205, 229);
+    background: rgba(63, 57, 57, 0.253);
+  }
+
+  #pagination button{
+    background-color: rgba(255, 127, 80, 0.599);
+    border-radius: 5px;
+    padding-left: 3px;
+    padding-right: 3px;
+    
+  }
+  #pagination button:hover{
+    cursor: pointer;
+    background-color: rgb(255, 127, 80);
+  }

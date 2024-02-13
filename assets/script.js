@@ -267,3 +267,4 @@ displaySavedList();
 // Attach event listener to toggle button
 document.getElementById('toggle-list-button').addEventListener('click', toggleMyList);
 
+
